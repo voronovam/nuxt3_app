@@ -1,4 +1,18 @@
 <template lang="pug">
-div
-  slot
+.default-layout
+  TheMenu
+
+  main
+    slot
+
+  TheFooter
+
 </template>
+
+<style lang="sass">
+.default-layout
+  display: grid
+  min-height: 100vh
+  grid-template-rows: max-content 1fr max-content
+
+</style>

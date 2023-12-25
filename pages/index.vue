@@ -1,50 +1,9 @@
-<template lang="pug">
-main.start-page.container
-  form(
-    @submit.prevent="searchData"
-  )
-    input(
-      v-model="value"
-      placeholder="search"
-      type="search"
-      autocomplete
-    )
-
-    button(
-      type="submit"
-    )
-      | Find
-
-  div(
-    v-if="moviesData && responseData === responseStatus.success"
-  )
-    .start-page__list
-      FilmCard(
-        v-for="movie in moviesData"
-        :key="movie.id"
-        :film="movie"
-      )
-
-    p total results {{ totalResults }}
-
-    button.start-page__more-btn(
-      v-if="moviesData"
-      type="button"
-      @click="getMoreData"
-    ) load more
-
-  EmptyResults(
-    v-if="responseData === responseStatus.fail"
-    :message="apiMessage"
-  )
-
-</template>
-
 <script setup lang="ts">
 import { ref } from 'vue';
+import type { FilmCardModel } from '~/models/FilmCardModel';
 
 useHead({
-  titleTemplate: 'Home | SoundOST'
+  titleTemplate: 'SoundOST'
 })
 
 let value = ref('');
@@ -55,30 +14,25 @@ enum responseStatus {
   success = 'True',
   fail = 'False',
 }
+
 interface ResponseData {
   status: responseStatus;
 }
 const responseData = ref<ResponseData | null>(null);
-
-export interface FilmCard {
-  id: string;
-  title: string;
-  poster: string;
-  year: string;
-}
-const moviesData = ref<FilmCard[] | null>(null);
+const moviesData = ref<FilmCardModel[] | null>(null);
 
 async function searchData() {
   try {
     const url = `${import.meta.env.VITE_OMDB_API_URL}/?s=${value.value}&apikey=${import.meta.env.VITE_OMDB_API_KEY}`
     const { data: apiData } = await useFetch(url);
 
-    moviesData.value = apiData.value?.Search?.map((movie: any) => ({
+    moviesData.value = apiData.value?.Search?.map(movie => ({
       id: movie.imdbID,
       title: movie.Title,
       poster: movie.Poster,
       year: movie.Year,
     }));
+
     totalResults.value = apiData.value?.totalResults;
     responseData.value = apiData.value?.Response;
     apiMessage.value = apiData.value?.Error;
@@ -115,8 +69,44 @@ async function getMoreData() {
 
 </script>
 
+<template lang="pug">
+.start-page.container
+  TheSearchForm.start-page__form(
+    v-model="value"
+    @search-data="searchData"
+  )
+
+  template(
+    v-if="moviesData && responseData === responseStatus.success"
+  )
+    .start-page__list
+      FilmCard(
+        v-for="movie in moviesData"
+        :key="movie.id"
+        :film="movie"
+      )
+
+    p total results {{ totalResults }}
+
+    button.start-page__more-btn(
+      v-if="moviesData"
+      type="button"
+      @click="getMoreData"
+    ) load more
+
+  EmptyResults(
+    v-if="responseData === responseStatus.fail"
+    :message="apiMessage"
+  )
+
+</template>
+
 <style lang="sass">
 .start-page
+  &__form
+    margin-top: 16px
+    margin-bottom: 24px
+
   &__list
     display: grid
     grid-template-columns: repeat(2, 1fr)
@@ -133,5 +123,6 @@ async function getMoreData() {
 
   &__more-btn
     margin-top: 24px
+    margin-bottom: 24px
 
 </style>

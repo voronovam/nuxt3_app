@@ -5,7 +5,6 @@ Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introdu
 ## Setup
 
 ```bash
-
 # yarn
 yarn install
 
@@ -25,7 +24,6 @@ yarn dev
 Build the application for production:
 
 ```bash
-
 # yarn
 yarn build
 
@@ -34,7 +32,6 @@ yarn build
 Locally preview production build:
 
 ```bash
-
 # yarn
 yarn preview
 
