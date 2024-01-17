@@ -19,6 +19,7 @@ const currentYear = new Date().getFullYear()
 .the-footer
   background-color: $color-dark
   padding: 24px 0
+  font-family: monospace
 
   &__body
     display: flex
