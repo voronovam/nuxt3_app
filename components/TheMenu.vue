@@ -7,10 +7,10 @@ const router = useRouter();
 const { logUserOut } = useAuthStore();
 const { isAuth } = storeToRefs(useAuthStore());
 
-const logout = () => {
+/*const logout = () => {
   logUserOut();
   router.push('/login');
-};
+};*/
 </script>
 
 <template lang="pug">
@@ -22,15 +22,16 @@ const logout = () => {
       )
         TheLogo.the-menu__home-logo
 
-      nuxt-link(
-        v-if="isAuth"
-        @click="logout"
-      ) logout
+      //
+        nuxt-link(
+          v-if="isAuth"
+          @click="logout"
+        ) logout
 
-      nuxt-link(
-        v-if="isAuth"
-        to="/profile"
-      ) profile
+        nuxt-link(
+          v-if="isAuth"
+          to="/profile"
+        ) profile
 
 </template>
 
@@ -38,7 +39,6 @@ const logout = () => {
 .the-menu
   padding: 16px 0
   margin-bottom: 24px
-  background-color: $color-dark
   box-shadow: 0 2px 4px 0 $color-dark
   font-family: monospace
 

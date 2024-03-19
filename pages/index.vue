@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import type { FilmCardModel } from '~/models/FilmCardModel';
 
 useHead({
-  titleTemplate: 'SoundOST'
+  title: 'SoundOST'
 })
 
 let value = ref('');

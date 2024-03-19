@@ -1,28 +1,29 @@
 <script setup lang="ts">
-const route = useRoute();
 import type { FilmModel } from '~/models/FilmModel';
+const { id } = useRoute().params;
+console.log('id ->', id)
+const url = `${import.meta.env.VITE_OMDB_API_URL}/?i=${id}&apikey=${import.meta.env.VITE_OMDB_API_KEY}`;
+const pageTitle = ref('');
 
 const { data: filmData, error } = useLazyAsyncData<FilmModel>(async () => {
   try {
-    const url = `${import.meta.env.VITE_OMDB_API_URL}/?i=${route.params.id}&apikey=${import.meta.env.VITE_OMDB_API_KEY}`;
-    const response = await fetch(url);
-    const data = await response.json();
+    const { data } = await useFetch(url, { key: id });
 
     const film: FilmModel = {
-      id: data.imdbID,
-      title: data.Title,
-      poster: data.Poster,
-      year: data.Year,
-      released: data.Released,
-      runtime: data.Runtime,
-      genre: data.Genre,
-      director: data.Director,
-      writer: data.Writer,
-      actors: data.Actors,
-      country: data.Country,
-      plot: data.Plot,
+      id: data.value.imdbID,
+      title: data.value.Title,
+      poster: data.value.Poster,
+      year: data.value.Year,
+      released: data.value.Released,
+      runtime: data.value.Runtime,
+      genre: data.value.Genre,
+      director: data.value.Director,
+      writer: data.value.Writer,
+      actors: data.value.Actors,
+      country: data.value.Country,
+      plot: data.value.Plot,
     };
-
+    pageTitle.value = `${film.title} | SoundOST`;
     return film;
 
   } catch (error) {
@@ -32,11 +33,12 @@ const { data: filmData, error } = useLazyAsyncData<FilmModel>(async () => {
 });
 
 
+pageTitle.value = filmData && filmData.value && filmData.value.title ? `${filmData.value.title} | ` : '';
 
-const pageTitle = filmData?.value?.title || '';
 useHead({
-  titleTemplate: `${ pageTitle } | SoundOST`
+  title: `${pageTitle.value} | SoundOST`
 });
+
 
 </script>
 
