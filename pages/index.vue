@@ -1,15 +1,17 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 import type { FilmCardModel } from '~/models/FilmCardModel';
+import { useSearchValue } from '~/composables/useSearchValue';
 
 useHead({
   title: 'SoundOST'
 })
 
-let value = ref('');
+const { searchValue } = useSearchValue();
+
 let totalResults = ref('');
 let apiMessage = ref('');
-
+const router = useRouter()
+const isLoading = ref(false)
 enum responseStatus {
   success = 'True',
   fail = 'False',
@@ -21,9 +23,15 @@ interface ResponseData {
 const responseData = ref<ResponseData | null>(null);
 const moviesData = ref<FilmCardModel[] | null>(null);
 
+onMounted(async () => {
+  await searchData()
+})
+
 async function searchData() {
   try {
-    const url = `${import.meta.env.VITE_OMDB_API_URL}/?s=${value.value}&apikey=${import.meta.env.VITE_OMDB_API_KEY}`
+    isLoading.value = true
+    const url = `${import.meta.env.VITE_OMDB_API_URL}/?s=${searchValue.value}&apikey=${import.meta.env.VITE_OMDB_API_KEY}`
+    isLoading.value = false
     const { data: apiData } = await useFetch(url);
 
     moviesData.value = apiData.value?.Search?.map(movie => ({
@@ -37,8 +45,14 @@ async function searchData() {
     responseData.value = apiData.value?.Response;
     apiMessage.value = apiData.value?.Error;
 
+    if (moviesData.value) {
+      const currentRoute = router.currentRoute.value.path;
+      const newRoute = `${currentRoute}?search=${searchValue.value}`;
+      await router.push(newRoute);
+    }
+
   } catch (error) {
-    console.info('Error:', error);
+    console.error('Error:', error);
   }
 }
 
@@ -47,7 +61,7 @@ async function getMoreData() {
   try {
     currentPage.value++;
 
-    const url = `${import.meta.env.VITE_OMDB_API_URL}/?s=${value.value}&apikey=${import.meta.env.VITE_OMDB_API_KEY}&page=${currentPage.value}`;
+    const url = `${import.meta.env.VITE_OMDB_API_URL}/?s=${searchValue.value}&apikey=${import.meta.env.VITE_OMDB_API_KEY}&page=${currentPage.value}`;
     const { data: apiData } = await useFetch(url);
 
     const newMovies = apiData.value?.Search?.map((movie: any) => ({
@@ -63,7 +77,7 @@ async function getMoreData() {
     apiMessage.value = apiData.value?.Error;
 
   } catch (error) {
-    console.info('Error:', error);
+    console.error('Error:', error);
   }
 }
 
@@ -72,32 +86,36 @@ async function getMoreData() {
 <template lang="pug">
 .start-page.container
   TheSearchForm.start-page__form(
-    v-model="value"
+    v-model="searchValue"
     @search-data="searchData"
   )
 
-  template(
-    v-if="moviesData && responseData === responseStatus.success"
-  )
-    .start-page__list
-      FilmCard(
-        v-for="movie in moviesData"
-        :key="movie.id"
-        :film="movie"
-      )
+  Spinner(v-if="isLoading")
+  
+  template(v-else)
 
-    p total results {{ totalResults }}
+    template(
+      v-if="moviesData && responseData === responseStatus.success"
+    )
+      .start-page__list
+        FilmCard(
+          v-for="movie in moviesData"
+          :key="movie.id"
+          :film="movie"
+        )
 
-    button.start-page__more-btn(
-      v-if="moviesData"
-      type="button"
-      @click="getMoreData"
-    ) load more
+      p total results {{ totalResults }}
 
-  EmptyResults(
-    v-if="responseData === responseStatus.fail"
-    :message="apiMessage"
-  )
+      button.start-page__more-btn(
+        v-if="moviesData"
+        type="button"
+        @click="getMoreData"
+      ) load more
+
+    EmptyResults(
+      v-if="responseData === responseStatus.fail"
+      :message="apiMessage"
+    )
 
 </template>
 

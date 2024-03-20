@@ -11,6 +11,7 @@ const { isAuth } = storeToRefs(useAuthStore());
   logUserOut();
   router.push('/login');
 };*/
+
 </script>
 
 <template lang="pug">

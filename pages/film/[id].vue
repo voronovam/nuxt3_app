@@ -36,7 +36,7 @@ const { data: filmData, error } = useLazyAsyncData<FilmModel>(async () => {
 pageTitle.value = filmData && filmData.value && filmData.value.title ? `${filmData.value.title} | ` : '';
 
 useHead({
-  title: `${pageTitle.value} | SoundOST`
+  title: `${pageTitle.value} SoundOST`
 });
 
 

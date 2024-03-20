@@ -1,15 +1,15 @@
 <script setup lang="ts">
 defineProps(['modelValue'])
-defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue', 'searchData']);
 </script>
 
 <template lang="pug">
 form(
-  @submit.prevent="$emit('searchData')"
+  @submit.prevent="emit('searchData')"
 )
   label
     input(
-      @input="$emit('update:modelValue', $event.target.value)"
+      @input="emit('update:modelValue', $event.target.value)"
       placeholder="search"
       type="search"
       autocomplete
@@ -18,9 +18,6 @@ form(
   button(
     type="submit"
   )
-    | Find
+    | go
+
 </template>
-
-<style lang="sass">
-
-</style>
