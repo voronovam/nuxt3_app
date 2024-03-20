@@ -91,9 +91,8 @@ async function getMoreData() {
   )
 
   Spinner(v-if="isLoading")
-  
-  template(v-else)
 
+  template(v-else)
     template(
       v-if="moviesData && responseData === responseStatus.success"
     )
