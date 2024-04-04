@@ -12,12 +12,13 @@ form(
       @input="emit('update:modelValue', $event.target.value)"
       placeholder="search"
       type="search"
-      autocomplete
+      name="search"
+      autocomplete="search"
     )
 
   button(
     type="submit"
   )
-    | go
+    | search
 
 </template>
