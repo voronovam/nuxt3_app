@@ -28,7 +28,9 @@ const onSubmit = async () => {
 .create
   .container
     .create__back
-      nuxt-link(to="/blog" title="back") 🔙
+      nuxt-link(to="/blog" title="back")
+        UiIcon(name="back" :size="24")
+
     h1.create__headline Create
 
     form

@@ -44,7 +44,9 @@ onMounted(() => fetchData())
 <template lang="pug">
 .detail
   .container
-    nuxt-link(to="/blog" title="back") 🔙
+    nuxt-link(to="/blog" title="back")
+      UiIcon(name="back" :size="24")
+
     h1 Update post
 
     form

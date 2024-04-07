@@ -37,15 +37,23 @@ onMounted(() => fetchData())
   .container
     .blog__head
       h1 Blog
-      nuxt-link(to="/blog/create" title="Create post") ➕
+      nuxt-link(to="/blog/create" title="Create post")
+
+        UiIcon(
+          name="add"
+          :size="48"
+        )
 
     ul(v-if="data.length")
       li.blog__post(v-for="post in data" :key="post.id")
-        div # {{ post.id }}
         h2 {{ post.title }}
         p {{ post.content }}
-        nuxt-link(:to="`/blog/${post.id}`" title="Edit") 🔄
-        button(@click="onDelete(post.id)" title="Remove") ❌
+
+        nuxt-link(:to="`/blog/${post.id}`" title="Edit")
+          UiIcon(name="edit")
+
+        button(@click="onDelete(post.id)" title="Remove")
+          UiIcon(name="delete")
 
     div(v-else)
       p No posts
