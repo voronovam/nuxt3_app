@@ -1,18 +1,18 @@
 <template lang="pug">
-.film-card
-  nuxt-link(
-    :to="`/film/${film.id}`"
-  )
-    .film-card__poster
-      img(
-        v-if="film.poster"
-        :src="film.poster"
-        :alt="film.title"
-        draggable="false"
-      )
+nuxt-link.film-card(
+  :to="`/film/${film.id}`"
+)
+  .film-card__poster
+    img.film-card__poster-img(
+      v-if="film.poster && film.poster !== 'N/A'"
+      :src="film.poster"
+      :alt="film.title"
+      draggable="false"
+    )
 
-    h3 {{film.title}}
-    div {{film.year}}
+  .film-card__info
+    h3.film-card__title {{film.title}}
+    .film-card__year {{film.year}}
 
 </template>
 
@@ -34,8 +34,32 @@ defineProps<{
 
 <style lang="sass">
 .film-card
+  border-radius: 2px
+  border: 2px solid $color-dark
+  transition: box-shadow .2s ease
+  &:hover
+    box-shadow: 6px 6px 0 -2px $color-dark
+
   &__poster
-    & > img
-      max-width: 100%
+    text-align: center
+    height: 180px
+    &:empty
+      background-color: $color-accent
+
+  &__poster-img
+    max-width: 100%
+    max-height: 100%
+    background-color: $color-accent
+
+  &__info
+    padding: 8px
+
+  &__title
+    font-size: 14px
+    @include textClamp2
+
+  &__year
+    font-size: 12px
+    color: $color-accent-1
 
 </style>

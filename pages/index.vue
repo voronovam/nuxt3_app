@@ -84,37 +84,38 @@ async function getMoreData() {
 </script>
 
 <template lang="pug">
-.start-page.container
-  TheSearchForm.start-page__form(
-    v-model="searchValue"
-    @search-data="searchData"
-  )
-
-  Spinner(v-if="isLoading")
-
-  template(v-else)
-    template(
-      v-if="moviesData && responseData === responseStatus.success"
+.start-page
+  .container
+    TheSearchForm.start-page__form(
+      v-model="searchValue"
+      @search-data="searchData"
     )
-      .start-page__list
-        FilmCard(
-          v-for="movie in moviesData"
-          :key="movie.id"
-          :film="movie"
-        )
 
-      p total results {{ totalResults }}
+    Spinner(v-if="isLoading")
 
-      button.start-page__more-btn(
-        v-if="moviesData"
-        type="button"
-        @click="getMoreData"
-      ) load more
+    template(v-else)
+      template(
+        v-if="moviesData && responseData === responseStatus.success"
+      )
+        .start-page__list
+          FilmCard(
+            v-for="movie in moviesData"
+            :key="movie.id"
+            :film="movie"
+          )
 
-    EmptyResults(
-      v-if="responseData === responseStatus.fail"
-      :message="apiMessage"
-    )
+        //.start-page__search-results total results {{ totalResults }}
+
+        UiButton.start-page__more-btn(
+          v-if="moviesData"
+          type="button"
+          @click="getMoreData"
+        ) load more
+
+      EmptyResults(
+        v-if="responseData === responseStatus.fail"
+        :message="apiMessage"
+      )
 
 </template>
 
@@ -141,5 +142,9 @@ async function getMoreData() {
   &__more-btn
     margin-top: 24px
     margin-bottom: 24px
+
+  &__search-results
+    font-size: 14px
+    margin-top: 16px
 
 </style>

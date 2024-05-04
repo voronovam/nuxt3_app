@@ -4,21 +4,33 @@ const emit = defineEmits(['update:modelValue', 'searchData']);
 </script>
 
 <template lang="pug">
-form(
+form.the-search-form(
   @submit.prevent="emit('searchData')"
 )
   label
-    input(
+    input.the-search-form__input(
       @input="emit('update:modelValue', $event.target.value)"
-      placeholder="search"
+      placeholder="find a movie"
       type="search"
       name="search"
       autocomplete="search"
     )
 
-  button(
-    type="submit"
-  )
-    | search
+  UiButton search
 
 </template>
+
+<style lang="sass">
+.the-search-form
+  display: flex
+  grid-gap: $gap
+
+  &__input
+    border-radius: 2px
+    border: 2px solid $color-dark
+    padding: 4px 8px
+    outline: none
+    &:focus-visible
+      box-shadow: 5px 5px 0 -2px $color-dark
+
+</style>

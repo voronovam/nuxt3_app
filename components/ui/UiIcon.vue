@@ -20,6 +20,7 @@ const icons: Record<string, Component> = {
   delete: defineAsyncComponent(() => import('./assets/icons/delete-2.svg?component')),
   edit: defineAsyncComponent(() => import('./assets/icons/edit.svg?component')),
   back: defineAsyncComponent(() => import('./assets/icons/arrow-left.svg?component')),
+  vk: defineAsyncComponent(() => import('./assets/icons/vk.svg?component')),
 }
 
 const icon = computed(() => icons[props.name]);

@@ -39,9 +39,6 @@ const { isAuth } = storeToRefs(useAuthStore());
 <style lang="sass">
 .the-menu
   padding: 16px 0
-  margin-bottom: 24px
-  box-shadow: 0 2px 4px 0 $color-dark
-  font-family: monospace
 
   &__body
     display: flex
@@ -52,6 +49,6 @@ const { isAuth } = storeToRefs(useAuthStore());
   &__home-logo
     width: 140px
     &:hover, &:focus-visible
-      color: $color-accent
+      color: $color-accent-1
 
 </style>

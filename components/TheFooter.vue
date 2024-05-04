@@ -11,7 +11,9 @@ const currentYear = new Date().getFullYear()
       a.the-footer__vk-link(
         :href="`https://vk.com/soundost`"
         target="_blank"
-      ) soundOST
+        title="VK Community"
+      )
+        UiIcon(name="vk" :size="42")
 
 </template>
 
@@ -29,6 +31,6 @@ const currentYear = new Date().getFullYear()
 
     &:hover,
     &:focus-visible
-      color: $color-accent
+      color: $color-accent-1
 
 </style>
