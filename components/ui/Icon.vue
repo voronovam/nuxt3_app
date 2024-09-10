@@ -1,4 +1,5 @@
 <template lang="pug">
+//TODO use NuxtIcon
 component.ui-icon(
   :is="icon"
   :style="`--uiIconSize: ${size}`"

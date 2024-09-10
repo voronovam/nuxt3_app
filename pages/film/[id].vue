@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { FilmModel } from '~/models/FilmModel';
 const { id } = useRoute().params;
-console.log('id ->', id)
+console.log('id ->', id) //TODO remove
 const url = `${import.meta.env.VITE_OMDB_API_URL}/?i=${id}&apikey=${import.meta.env.VITE_OMDB_API_KEY}`;
 const pageTitle = ref('');
 
@@ -9,6 +9,7 @@ const { data: filmData, error } = useLazyAsyncData<FilmModel>(async () => {
   try {
     const { data } = await useFetch(url, { key: id });
 
+    //TODO create type
     const film: FilmModel = {
       id: data.value.imdbID,
       title: data.value.Title,

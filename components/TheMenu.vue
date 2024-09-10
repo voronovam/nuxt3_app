@@ -18,6 +18,7 @@ const { isAuth } = storeToRefs(useAuthStore());
 .the-menu
   .container
     .the-menu__body
+      //TODO create routes
       nuxt-link(
         to="/"
       )

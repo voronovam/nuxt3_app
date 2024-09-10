@@ -30,6 +30,7 @@ onMounted(async () => {
 async function searchData() {
   try {
     isLoading.value = true
+    //TODO create composable
     const url = `${import.meta.env.VITE_OMDB_API_URL}/?s=${searchValue.value}&apikey=${import.meta.env.VITE_OMDB_API_KEY}`
     isLoading.value = false
     const { data: apiData } = await useFetch(url);
