@@ -35,21 +35,21 @@ defineProps<{
 <style lang="sass">
 .film-card
   border-radius: 2px
-  border: 2px solid $color-dark
+  border: 2px solid var(--color-dark)
   transition: box-shadow .2s ease
   &:hover
-    box-shadow: 6px 6px 0 -2px $color-dark
+    box-shadow: 6px 6px 0 -2px var(--color-dark)
 
   &__poster
     text-align: center
     height: 180px
     &:empty
-      background-color: $color-accent
+      background-color: var(--color-accent)
 
   &__poster-img
     max-width: 100%
     max-height: 100%
-    background-color: $color-accent
+    background-color: var(--color-accent)
 
   &__info
     padding: 8px
@@ -60,6 +60,6 @@ defineProps<{
 
   &__year
     font-size: 12px
-    color: $color-accent-1
+    color: var(--color-accent-1)
 
 </style>

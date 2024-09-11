@@ -102,7 +102,7 @@ useHead({
 .film-page
   &__go-back
     display: inline-block
-    color: $color-accent
+    color: var(--color-accent)
     margin-top: 16px
     margin-bottom: 24px
 

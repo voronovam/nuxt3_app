@@ -131,13 +131,13 @@ async function getMoreData() {
     grid-template-columns: repeat(2, 1fr)
     grid-gap: 16px
 
-    @media (min-width: $tablet-portrait)
+    @include tablet
       grid-template-columns: repeat(5, 1fr)
 
-    @media (min-width: $tablet-landscape)
+    @include tablet-landscape
       grid-template-columns: repeat(6, 1fr)
 
-    @media (min-width: $desktop)
+    @include desktop
       grid-template-columns: repeat(9, 1fr)
 
   &__more-btn

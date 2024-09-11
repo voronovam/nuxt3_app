@@ -1,0 +1,25 @@
+\:root
+  --gap: 8px
+  --container-max-width: 1440px
+
+$mobile: 360px
+$mobile-landscape: 540px
+$tablet: 768px
+$tablet-landscape: 1024px
+$desktop: 1200px
+
+@mixin mobile-landscape
+  @media (min-width: $mobile-landscape)
+    @content
+
+@mixin tablet
+  @media (min-width: $tablet)
+    @content
+
+@mixin tablet-landscape
+  @media (min-width: $tablet-landscape)
+    @content
+
+@mixin desktop
+  @media (min-width: $desktop)
+    @content

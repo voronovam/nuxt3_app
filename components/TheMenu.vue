@@ -50,6 +50,6 @@ const { isAuth } = storeToRefs(useAuthStore());
   &__home-logo
     width: 140px
     &:hover, &:focus-visible
-      color: $color-accent-1
+      color: var(--color-accent-1)
 
 </style>

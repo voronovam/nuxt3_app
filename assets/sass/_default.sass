@@ -6,9 +6,9 @@ body
   font-size: 16px
 
 body
-  color: $color-text
-  background: $body-bg
-  font-family: $font-default
+  color: var(--color-text)
+  background: var(--body-bg)
+  font-family: var(--font-default)
   font-size: 1rem
   line-height: 1.4
   font-weight: 400
@@ -41,7 +41,7 @@ ul, ol
   padding: 0 0 0 20px
   & li
     &::marker
-      color: $color-dark
+      color: var(--color-dark)
 
 ::placeholder,
 button,
@@ -62,7 +62,7 @@ svg
 
 .container
   width: 100%
-  max-width: $container-max-width
+  max-width: var(--container-max-width)
   padding: 0 16px
   margin-right: auto
   margin-left: auto

@@ -23,14 +23,14 @@ form.the-search-form(
 <style lang="sass">
 .the-search-form
   display: flex
-  grid-gap: $gap
+  grid-gap: var(--gap)
 
   &__input
     border-radius: 2px
-    border: 2px solid $color-dark
+    border: 2px solid var(--color-dark)
     padding: 4px 8px
     outline: none
     &:focus-visible
-      box-shadow: 5px 5px 0 -2px $color-dark
+      box-shadow: 5px 5px 0 -2px var(--color-dark)
 
 </style>

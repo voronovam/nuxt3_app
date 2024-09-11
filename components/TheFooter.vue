@@ -27,10 +27,10 @@ const currentYear = new Date().getFullYear()
     justify-content: space-between
 
   &__vk-link
-    transition: $transition-base
+    transition: all .2s ease
 
     &:hover,
     &:focus-visible
-      color: $color-accent-1
+      color: var(--color-accent-1)
 
 </style>
