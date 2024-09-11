@@ -5,8 +5,15 @@ svgLoader({
   defaultImport: 'raw'
 })
 
+//TODO добавить линтер
+
 export default defineNuxtConfig({
   devtools: { enabled: true },
+  app: {
+    head: {
+      titleTemplate: '%s | soundOST',
+    }
+  },
   modules: [
     [
       '@pinia/nuxt',

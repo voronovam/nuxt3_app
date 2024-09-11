@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import type { FilmModel } from '~/models/FilmModel';
 const { id } = useRoute().params;
-console.log('id ->', id) //TODO remove
+console.log('id ->', id)
+
+//TODO create composable
 const url = `${import.meta.env.VITE_OMDB_API_URL}/?i=${id}&apikey=${import.meta.env.VITE_OMDB_API_KEY}`;
 const pageTitle = ref('');
 
@@ -24,7 +26,7 @@ const { data: filmData, error } = useLazyAsyncData<FilmModel>(async () => {
       country: data.value.Country,
       plot: data.value.Plot,
     };
-    pageTitle.value = `${film.title} | SoundOST`;
+    pageTitle.value = film.title;
     return film;
 
   } catch (error) {
@@ -34,12 +36,11 @@ const { data: filmData, error } = useLazyAsyncData<FilmModel>(async () => {
 });
 
 
-pageTitle.value = filmData && filmData.value && filmData.value.title ? `${filmData.value.title} | ` : '';
+pageTitle.value = filmData && filmData.value && filmData.value.title ? filmData.value.title : '';
 
 useHead({
-  title: `${pageTitle.value} SoundOST`
+  title: pageTitle.value
 });
-
 
 </script>
 

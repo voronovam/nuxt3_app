@@ -1,86 +1,71 @@
 <script setup lang="ts">
 import type { FilmCardModel } from '~/models/FilmCardModel';
 import { useSearchValue } from '~/composables/useSearchValue';
+import { useGetSearchData } from '~/composables/useGetSearchData';
 
-useHead({
-  title: 'SoundOST'
-})
-
-const { searchValue } = useSearchValue();
-
-let totalResults = ref('');
-let apiMessage = ref('');
-const router = useRouter()
-const isLoading = ref(false)
-enum responseStatus {
+enum responseStatusEnum {
   success = 'True',
   fail = 'False',
 }
 
-interface ResponseData {
-  status: responseStatus;
-}
-const responseData = ref<ResponseData | null>(null);
+const currentPage = ref(1);
+//const router = useRouter();
 const moviesData = ref<FilmCardModel[] | null>(null);
 
-onMounted(async () => {
-  await searchData()
-})
+const { searchValue } = useSearchValue();
+
+const { data, responseStatus, totalResults, error, isLoading, fetchSearchData } = useGetSearchData();
 
 async function searchData() {
   try {
-    isLoading.value = true
-    //TODO create composable
-    const url = `${import.meta.env.VITE_OMDB_API_URL}/?s=${searchValue.value}&apikey=${import.meta.env.VITE_OMDB_API_KEY}`
-    isLoading.value = false
-    const { data: apiData } = await useFetch(url);
+    currentPage.value = 1;
 
-    moviesData.value = apiData.value?.Search?.map(movie => ({
-      id: movie.imdbID,
-      title: movie.Title,
-      poster: movie.Poster,
-      year: movie.Year,
-    }));
+    await fetchSearchData(searchValue.value);
 
-    totalResults.value = apiData.value?.totalResults;
-    responseData.value = apiData.value?.Response;
-    apiMessage.value = apiData.value?.Error;
-
-    if (moviesData.value) {
-      const currentRoute = router.currentRoute.value.path;
-      const newRoute = `${currentRoute}?search=${searchValue.value}`;
-      await router.push(newRoute);
+    if (data.value) {
+      moviesData.value = data.value.map((movie) => ({
+        id: movie.imdbID || '',
+        title: movie.Title || '',
+        poster: movie.Poster || '',
+        year: movie.Year || '',
+      }));
     }
-
-  } catch (error) {
-    console.error('Error:', error);
+  } catch (err) {
+    console.log(error.value);
   }
 }
 
-const currentPage = ref(1);
-async function getMoreData() {
+const getMoreData = async () => {
   try {
     currentPage.value++;
+    await fetchSearchData(searchValue.value, currentPage.value);
 
-    const url = `${import.meta.env.VITE_OMDB_API_URL}/?s=${searchValue.value}&apikey=${import.meta.env.VITE_OMDB_API_KEY}&page=${currentPage.value}`;
-    const { data: apiData } = await useFetch(url);
+    if (data.value) {
+      const newMovies = data.value.map((movie) => ({
+        id: movie.imdbID || '',
+        title: movie.Title || '',
+        poster: movie.Poster || '',
+        year: movie.Year || '',
+      }));
 
-    const newMovies = apiData.value?.Search?.map((movie: any) => ({
-      id: movie.imdbID,
-      title: movie.Title,
-      poster: movie.Poster,
-      year: movie.Year,
-    }));
+      const uniqueMovies = newMovies.filter(
+        (newMovie) => !moviesData.value.some((existingMovie) => existingMovie.id === newMovie.id)
+      );
 
-    moviesData.value = moviesData.value?.concat(newMovies);
-    totalResults = apiData.value?.totalResults;
-    responseData.value = apiData.value?.Response;
-    apiMessage.value = apiData.value?.Error;
-
-  } catch (error) {
-    console.error('Error:', error);
+      moviesData.value = [...moviesData.value, ...uniqueMovies];
+    }
+  } catch (err) {
+    console.error('Error get more data:', err);
   }
-}
+};
+
+const isShowMoreBtn = computed(() => {
+  return moviesData.value.length < totalResults.value && !isLoading.value;
+});
+
+useHead({
+  title: 'Search'
+})
 
 </script>
 
@@ -94,9 +79,14 @@ async function getMoreData() {
 
     Spinner(v-if="isLoading")
 
+    EmptyResults(
+      v-if="error"
+      :message="error"
+    )
+
     template(v-else)
       template(
-        v-if="moviesData && responseData === responseStatus.success"
+        v-if="moviesData && responseStatus === responseStatusEnum.success"
       )
         .start-page__list
           FilmCard(
@@ -105,18 +95,13 @@ async function getMoreData() {
             :film="movie"
           )
 
-        //.start-page__search-results total results {{ totalResults }}
+        .start-page__search-results total results: {{ totalResults }}
 
         UiButton.start-page__more-btn(
-          v-if="moviesData"
+          v-if="isShowMoreBtn"
           type="button"
           @click="getMoreData"
         ) load more
-
-      EmptyResults(
-        v-if="responseData === responseStatus.fail"
-        :message="apiMessage"
-      )
 
 </template>
 
@@ -130,6 +115,9 @@ async function getMoreData() {
     display: grid
     grid-template-columns: repeat(2, 1fr)
     grid-gap: 16px
+
+    @include mobile-landscape
+      grid-template-columns: repeat(4, 1fr)
 
     @include tablet
       grid-template-columns: repeat(5, 1fr)

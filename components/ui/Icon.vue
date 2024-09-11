@@ -1,20 +1,17 @@
 <template lang="pug">
-//TODO use NuxtIcon
 component.ui-icon(
   :is="icon"
-  :style="`--uiIconSize: ${size}`"
+  :style="props.size ? { '--ui-icon-size': `${props.size}px` } : null"
 )
-
 </template>
 
 <script setup lang="ts">
 type Props = {
-  size: number
+  size?: number
   name: string
 }
-const props = withDefaults(defineProps<Props>(),{
-  size: 16,
-})
+
+const props = defineProps<Props>()
 
 const icons: Record<string, Component> = {
   add: defineAsyncComponent(() => import('./assets/icons/add.svg?component')),
@@ -25,11 +22,14 @@ const icons: Record<string, Component> = {
 }
 
 const icon = computed(() => icons[props.name]);
-
 </script>
 
 <style lang="sass">
+$size: var(--ui-icon-size, 16px)
+
 .ui-icon
-  width: calc(var(--uiIconSize) * 1px)
-  height: calc(var(--uiIconSize) * 1px)
+  flex-shrink: 0
+  width: $size
+  height: $size
+
 </style>

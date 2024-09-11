@@ -36,8 +36,10 @@ defineProps<{
 .film-card
   border-radius: 2px
   border: 2px solid var(--color-dark)
+  outline: none
   transition: box-shadow .2s ease
-  &:hover
+  &:hover,
+  &:focus-visible
     box-shadow: 6px 6px 0 -2px var(--color-dark)
 
   &__poster
