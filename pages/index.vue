@@ -3,11 +3,6 @@ import type { FilmCardModel } from '~/models/FilmCardModel';
 import { useSearchValue } from '~/composables/useSearchValue';
 import { useGetSearchData } from '~/composables/useGetSearchData';
 
-enum responseStatusEnum {
-  success = 'True',
-  fail = 'False',
-}
-
 const currentPage = ref(1);
 //const router = useRouter();
 const moviesData = ref<FilmCardModel[] | null>(null);
@@ -86,7 +81,7 @@ useHead({
 
     template(v-else)
       template(
-        v-if="moviesData && responseStatus === responseStatusEnum.success"
+        v-if="moviesData && responseStatus === 'True'"
       )
         .start-page__list
           FilmCard(

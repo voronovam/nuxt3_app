@@ -45,57 +45,59 @@ useHead({
 </script>
 
 <template lang="pug">
-.film-page.container
-  article.film-page__article(
-    v-if="filmData"
-  )
-    .film-page__poster
-      img(
-        v-if="filmData.poster"
-        :src="filmData.poster"
-        :alt="filmData.title"
-        draggable="false"
-      )
+.film-page
+  .container
+    article.film-page__article(
+      v-if="filmData"
+    )
+      .film-page__poster
+        img(
+          v-if="filmData.poster"
+          :src="filmData.poster"
+          :alt="filmData.title"
+          draggable="false"
+        )
 
-    .film-page__info
-      h1.film-page__headline
-        | {{filmData.title}}
+      .film-page__info
+        h1.film-page__headline
+          | {{filmData.title}}
 
-      .film-page__info-item
-        span Year:
-        | {{filmData.year}}
+        .film-page__info-item
+          span Year:
+          | {{filmData.year}}
 
-      .film-page__info-item
-        span Released:
-        | {{ filmData.released }}
+        .film-page__info-item
+          span Released:
+          | {{ filmData.released }}
 
-      .film-page__info-item
-        span Runtime:
-        | {{ filmData.runtime }}
+        .film-page__info-item
+          span Runtime:
+          | {{ filmData.runtime }}
 
-      .film-page__info-item
-        span Genre:
-        | {{ filmData.genre }}
+        .film-page__info-item
+          span Genre:
+          | {{ filmData.genre }}
 
-      .film-page__info-item
-        span Director:
-        | {{ filmData.director }}
+        .film-page__info-item
+          span Director:
+          | {{ filmData.director }}
 
-      .film-page__info-item
-        span Writer:
-        | {{ filmData.writer }}
+        .film-page__info-item
+          span Writer:
+          | {{ filmData.writer }}
 
-      .film-page__info-item
-        span Actors:
-        | {{ filmData.actors }}
+        .film-page__info-item
+          span Actors:
+          | {{ filmData.actors }}
 
-      .film-page__info-item
-        span Country:
-        | {{ filmData.country }}
+        .film-page__info-item
+          span Country:
+          | {{ filmData.country }}
 
-      .film-page__info-item
-        span Plot:
-        | {{ filmData.plot }}
+        .film-page__info-item
+          span Plot:
+          | {{ filmData.plot }}
+
 
 </template>
 
