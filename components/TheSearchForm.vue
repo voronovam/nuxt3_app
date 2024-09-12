@@ -20,17 +20,20 @@ form.the-search-form(
 
 </template>
 
-<style lang="sass">
-.the-search-form
-  display: flex
-  grid-gap: var(--gap)
+<style lang="scss">
+.the-search-form {
+  display: flex;
+  grid-gap: var(--gap);
 
-  &__input
-    border-radius: 2px
-    border: 2px solid var(--color-dark)
-    padding: 4px 8px
-    outline: none
-    &:focus-visible
-      box-shadow: 5px 5px 0 -2px var(--color-dark)
+  &__input {
+    border-radius: 2px;
+    border: 2px solid var(--color-dark);
+    padding: 4px 8px;
+    outline: none;
 
+    &:focus-visible {
+      box-shadow: 5px 5px 0 -2px var(--color-dark);
+    }
+  }
+}
 </style>

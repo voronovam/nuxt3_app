@@ -32,36 +32,45 @@ defineProps<{
 
 </script>
 
-<style lang="sass">
-.film-card
-  border-radius: 2px
-  border: 2px solid var(--color-dark)
-  outline: none
-  transition: box-shadow .2s ease
+<style lang="scss">
+.film-card {
+  border-radius: 2px;
+  border: 2px solid var(--color-dark);
+  outline: none;
+  transition: box-shadow .2s ease;
+
   &:hover,
-  &:focus-visible
-    box-shadow: 6px 6px 0 -2px var(--color-dark)
+  &:focus-visible {
+     box-shadow: 6px 6px 0 -2px var(--color-dark);
+   }
 
-  &__poster
-    text-align: center
-    height: 180px
-    &:empty
-      background-color: var(--color-accent)
+  &__poster {
+     text-align: center;
+     height: 180px;
 
-  &__poster-img
-    max-width: 100%
-    max-height: 100%
-    background-color: var(--color-accent)
+     &:empty {
+        background-color: var(--color-accent);
+      }
+   }
 
-  &__info
-    padding: 8px
+  &__poster-img {
+     max-width: 100%;
+     max-height: 100%;
+     background-color: var(--color-accent);
+   }
 
-  &__title
-    font-size: 14px
-    @include textClamp2
+  &__info {
+     padding: 8px;
+   }
 
-  &__year
-    font-size: 12px
-    color: var(--color-accent-1)
+  &__title {
+     font-size: 14px;
+     @include textClamp2;
+   }
 
+  &__year {
+     font-size: 12px;
+     color: var(--color-accent-1);
+   }
+}
 </style>

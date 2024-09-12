@@ -17,20 +17,23 @@ const currentYear = new Date().getFullYear()
 
 </template>
 
-<style lang="sass">
-.the-footer
-  padding: 24px 0
-  font-family: monospace
+<style lang="scss">
+.the-footer {
+  padding: 24px 0;
+  font-family: monospace;
 
-  &__body
-    display: flex
-    justify-content: space-between
+  &__body {
+    display: flex;
+    justify-content: space-between;
+  }
 
-  &__vk-link
-    transition: all .2s ease
+  &__vk-link {
+    transition: all .2s ease;
 
     &:hover,
-    &:focus-visible
-      color: var(--color-accent-1)
-
+    &:focus-visible {
+      color: var(--color-accent-1);
+    }
+  }
+}
 </style>

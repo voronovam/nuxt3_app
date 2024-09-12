@@ -1,16 +1,5 @@
 <script setup lang="ts">
-import {storeToRefs} from 'pinia';
-import {useAuthStore} from '../store/auth.js';
 
-const router = useRouter();
-
-const { logUserOut } = useAuthStore();
-const { isAuth } = storeToRefs(useAuthStore());
-
-/*const logout = () => {
-  logUserOut();
-  router.push('/login');
-};*/
 
 </script>
 
@@ -37,19 +26,22 @@ const { isAuth } = storeToRefs(useAuthStore());
 
 </template>
 
-<style lang="sass">
-.the-menu
-  padding: 16px 0
+<style lang="scss">
+.the-menu {
+  padding: 16px 0;
 
-  &__body
-    display: flex
-    justify-content: space-between
-    align-items: flex-end
+  &__body {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
 
+  &__home-logo {
+    width: 140px;
 
-  &__home-logo
-    width: 140px
-    &:hover, &:focus-visible
+    &:hover, &:focus-visible {
       color: var(--color-accent-1)
-
+    }
+  }
+}
 </style>

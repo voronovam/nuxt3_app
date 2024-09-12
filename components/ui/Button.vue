@@ -6,16 +6,18 @@ button.ui-button(
 
 </template>
 
-<style lang="sass">
-.ui-button
-  border-radius: 2px
-  color: var(--color-dark)
-  background-color: var(color-light)
-  padding: 4px 8px
-  transition: box-shadow .2s ease
-  outline: none
+<style lang="scss">
+.ui-button {
+  border-radius: 2px;
+  color: var(--color-dark);
+  background-color: var(color-light);
+  padding: 4px 8px;
+  transition: box-shadow .2s ease;
+  outline: none;
 
   &:hover,
-  &:focus-visible
+  &:focus-visible {
     box-shadow: 5px 5px 0 -2px var(--color-dark)
+  }
+}
 </style>

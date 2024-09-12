@@ -105,35 +105,43 @@ useHead({
 
 </template>
 
-<style lang="sass">
-.start-page
-  &__form
-    margin-top: 16px
-    margin-bottom: 24px
+<style lang="scss">
+.start-page {
+  &__form {
+    margin-top: 16px;
+    margin-bottom: 24px;
+  }
 
-  &__list
-    display: grid
-    grid-template-columns: repeat(2, 1fr)
-    grid-gap: 16px
+  &__list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 16px;
 
-    @include mobile-landscape
-      grid-template-columns: repeat(4, 1fr)
+    @include mobile-landscape {
+      grid-template-columns: repeat(4, 1fr);
+    }
 
-    @include tablet
-      grid-template-columns: repeat(5, 1fr)
+    @include tablet {
+      grid-template-columns: repeat(5, 1fr);
+    }
 
-    @include tablet-landscape
-      grid-template-columns: repeat(6, 1fr)
+    @include tablet-landscape {
+      grid-template-columns: repeat(6, 1fr);
+    }
 
-    @include desktop
-      grid-template-columns: repeat(9, 1fr)
+    @include desktop {
+      grid-template-columns: repeat(9, 1fr);
+    }
+  }
 
-  &__more-btn
-    margin-top: 24px
-    margin-bottom: 24px
+  &__more-btn {
+    margin-top: 24px;
+    margin-bottom: 24px;
+  }
 
-  &__search-results
-    font-size: 14px
-    margin-top: 16px
-
+  &__search-results {
+    font-size: 14px;
+    margin-top: 16px;
+  }
+}
 </style>

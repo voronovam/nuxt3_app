@@ -9,10 +9,10 @@
 
 </template>
 
-<style lang="sass">
-.default-layout
-  display: grid
-  min-height: 100vh
-  grid-template-rows: max-content 1fr max-content
-
+<style lang="scss">
+.default-layout {
+  display: grid;
+  min-height: 100vh;
+  grid-template-rows: max-content 1fr max-content;
+}
 </style>

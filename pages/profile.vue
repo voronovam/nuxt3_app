@@ -22,6 +22,3 @@ useHead({
 
 </template>
 
-<style lang="sass">
-
-</style>

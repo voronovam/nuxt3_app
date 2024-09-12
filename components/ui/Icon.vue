@@ -24,12 +24,12 @@ const icons: Record<string, Component> = {
 const icon = computed(() => icons[props.name]);
 </script>
 
-<style lang="sass">
-$size: var(--ui-icon-size, 16px)
+<style lang="scss">
+$size: var(--ui-icon-size, 16px);
 
-.ui-icon
-  flex-shrink: 0
-  width: $size
-  height: $size
-
+.ui-icon {
+  flex-shrink: 0;
+  width: $size;
+  height: $size;
+}
 </style>

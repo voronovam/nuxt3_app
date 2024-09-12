@@ -99,28 +99,33 @@ useHead({
 
 </template>
 
-<style lang="sass">
-.film-page
-  &__go-back
-    display: inline-block
-    color: var(--color-accent)
-    margin-top: 16px
-    margin-bottom: 24px
+<style lang="scss">
+.film-page {
+  &__go-back {
+    display: inline-block;
+    color: var(--color-accent);
+    margin-top: 16px;
+    margin-bottom: 24px;
+  }
 
-  &__article
-    display: flex
-    grid-gap: 16px
+  &__article {
+    display: flex;
+    grid-gap: 16px;
+  }
 
-  &__headline
-    margin-bottom: 16px
+  &__headline {
+    margin-bottom: 16px;
+  }
 
-  &__info
-    max-width: 600px
+  &__info {
+    max-width: 600px;
+  }
 
-  &__info-item
-    display: grid
-    grid-template-columns: 84px 1fr
-    grid-gap: 8px
-    margin-top: 4px
-
+  &__info-item {
+    display: grid;
+    grid-template-columns: 84px 1fr;
+    grid-gap: 8px;
+    margin-top: 4px;
+  }
+}
 </style>

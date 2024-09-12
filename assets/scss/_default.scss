@@ -1,0 +1,90 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+}
+
+body {
+  color: var(--color-text);
+  background: var(--body-bg);
+  font-family: var(--font-default);
+  font-size: 1rem;
+  line-height: 1.4;
+  font-weight: 400;
+}
+
+
+*, ::after, ::before {
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+  transition: all .2s ease;
+  color: inherit;
+  font-family: inherit;
+
+  &:hover {
+    color: inherit
+  }
+}
+
+h1,h2,h3,h4,h5,h6 {
+  font-family: inherit;
+  font-weight: 700;
+  margin: 0;
+}
+
+p {
+  font-family: inherit;
+  line-height: 1.5;
+
+  &:empty {
+    display: none;
+  }
+}
+
+
+ul, ol {
+  margin: 30px 0 0;
+  padding: 0 0 0 20px;
+
+  & li {
+    &::marker {
+      color: var(--color-dark);
+    }
+  }
+}
+
+
+::placeholder,
+button,
+input,
+select {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+svg {
+  fill: currentColor;
+}
+
+.visually-hidden {
+  @include visually-hidden;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container-max-width);
+  padding: 0 16px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
