@@ -1,54 +1,32 @@
 <script setup lang="ts">
-import type { FilmModel } from '~/models/FilmModel';
+import { useGetFilmData } from '~/composables/useGetFilmData';
+
 const { id } = useRoute().params;
-console.log('id ->', id)
+const { filmData, error, isLoading, fetchFilmData } = useGetFilmData();
 
-//TODO create composable
-const url = `${import.meta.env.VITE_OMDB_API_URL}/?i=${id}&apikey=${import.meta.env.VITE_OMDB_API_KEY}`;
-const pageTitle = ref('');
+fetchFilmData(id as string);
 
-const { data: filmData, error } = useLazyAsyncData<FilmModel>(async () => {
-  try {
-    const { data } = await useFetch(url, { key: id });
-
-    //TODO create type
-    const film: FilmModel = {
-      id: data.value.imdbID,
-      title: data.value.Title,
-      poster: data.value.Poster,
-      year: data.value.Year,
-      released: data.value.Released,
-      runtime: data.value.Runtime,
-      genre: data.value.Genre,
-      director: data.value.Director,
-      writer: data.value.Writer,
-      actors: data.value.Actors,
-      country: data.value.Country,
-      plot: data.value.Plot,
-    };
-    pageTitle.value = film.title;
-    return film;
-
-  } catch (error) {
-    console.error('Error:', error);
-    throw error;
+watch(filmData, (newFilmData) => {
+  if (newFilmData && newFilmData.title) {
+    useHead({
+      title: newFilmData.title,
+    });
+  } else {
+    useHead({
+      title: 'Movie',
+    });
   }
-});
-
-
-pageTitle.value = filmData && filmData.value && filmData.value.title ? filmData.value.title : '';
-
-useHead({
-  title: pageTitle.value
-});
+}, { immediate: true });
 
 </script>
 
 <template lang="pug">
 .film-page
   .container
+    Spinner(v-if="isLoading")
+
     article.film-page__article(
-      v-if="filmData"
+      v-else-if="filmData"
     )
       .film-page__poster
         img(
@@ -99,6 +77,7 @@ useHead({
           | {{ filmData.plot }}
 
 
+    EmptyResults(v-else) {{error}}
 </template>
 
 <style lang="scss">
@@ -125,7 +104,7 @@ useHead({
 
   &__info-item {
     display: grid;
-    grid-template-columns: 84px 1fr;
+    grid-template-columns: 100px 1fr;
     grid-gap: 8px;
     margin-top: 4px;
   }

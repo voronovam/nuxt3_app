@@ -1,7 +1,13 @@
 <script setup lang="ts">
-import type { FilmCardModel } from '~/models/FilmCardModel';
 import { useSearchValue } from '~/composables/useSearchValue';
 import { useGetSearchData } from '~/composables/useGetSearchData';
+
+export interface FilmCardModel {
+  id: string;
+  title: string;
+  poster: string;
+  year: string;
+}
 
 const currentPage = ref(1);
 //const router = useRouter();

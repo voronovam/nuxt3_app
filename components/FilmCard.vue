@@ -10,6 +10,8 @@ nuxt-link.film-card(
       draggable="false"
     )
 
+    .film-card__no-poster(v-else) no poster
+
   .film-card__info
     h3.film-card__title {{film.title}}
     .film-card__year {{film.year}}
@@ -45,13 +47,15 @@ defineProps<{
    }
 
   &__poster {
-     text-align: center;
-     height: 180px;
-
-     &:empty {
-        background-color: var(--color-accent);
-      }
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    height: 180px;
    }
+
+  &__no-poster {
+    align-self: center;
+  }
 
   &__poster-img {
      max-width: 100%;
