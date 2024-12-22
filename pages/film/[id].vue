@@ -1,84 +1,85 @@
 <script setup lang="ts">
-import { useGetFilmData } from '~/composables/useGetFilmData';
+import { useMovieItem } from '~/stores/movieItem';
 
-const { id } = useRoute().params;
-const { filmData, error, isLoading, fetchFilmData } = useGetFilmData();
+const route = useRoute();
+const { id } = route.params;
 
-fetchFilmData(id as string);
+const movieItemStore = useMovieItem();
 
-watch(filmData, (newFilmData) => {
-  if (newFilmData && newFilmData.title) {
-    useHead({
-      title: newFilmData.title,
-    });
-  } else {
-    useHead({
-      title: 'Movie',
-    });
+onMounted(() => {
+  if (id) {
+    movieItemStore.getMovie(id as string);
   }
-}, { immediate: true });
+});
 
+watch(
+  () => movieItemStore.title,
+  (newTitle) => {
+    useHead({
+      title: newTitle || '👾',
+    });
+  },
+  { immediate: true }
+);
 </script>
 
 <template lang="pug">
 .film-page
   .container
-    Spinner(v-if="isLoading")
+    Spinner(v-if="movieItemStore.isLoading")
 
-    article.film-page__article(
-      v-else-if="filmData"
-    )
+    article.film-page__article(v-else-if="movieItemStore.data")
       .film-page__poster
         img(
-          v-if="filmData.poster"
-          :src="filmData.poster"
-          :alt="filmData.title"
+          v-if="movieItemStore.poster"
+          :src="movieItemStore.poster"
+          :alt="movieItemStore.title"
           draggable="false"
         )
 
       .film-page__info
         h1.film-page__headline
-          | {{filmData.title}}
+          | {{ movieItemStore.title }}
 
         .film-page__info-item
           span Year:
-          | {{filmData.year}}
+          | {{ movieItemStore.year }}
 
         .film-page__info-item
           span Released:
-          | {{ filmData.released }}
+          | {{ movieItemStore.released }}
 
         .film-page__info-item
           span Runtime:
-          | {{ filmData.runtime }}
+          | {{ movieItemStore.runtime }}
 
         .film-page__info-item
           span Genre:
-          | {{ filmData.genre }}
+          | {{ movieItemStore.genre }}
 
         .film-page__info-item
           span Director:
-          | {{ filmData.director }}
+          | {{ movieItemStore.director }}
 
         .film-page__info-item
           span Writer:
-          | {{ filmData.writer }}
+          | {{ movieItemStore.writer }}
 
         .film-page__info-item
           span Actors:
-          | {{ filmData.actors }}
+          | {{ movieItemStore.actors }}
 
         .film-page__info-item
           span Country:
-          | {{ filmData.country }}
+          | {{ movieItemStore.country }}
 
         .film-page__info-item
           span Plot:
-          | {{ filmData.plot }}
+          | {{ movieItemStore.plot }}
 
-
-    EmptyResults(v-else) {{error}}
+    EmptyResults(v-else) {{ movieItemStore.error }}
 </template>
+
 
 <style lang="scss">
 .film-page {
