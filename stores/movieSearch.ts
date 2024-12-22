@@ -1,7 +1,10 @@
-import { OmdbMovie, OmdbResponse } from '@/types/movie';
+import {
+  OmdbMovieType,
+  OmdbResponseType
+} from '@/types/movie';
 
 export const useSearchStore = defineStore('search', () => {
-  const data = ref<OmdbMovie[]>([]);
+  const data = ref<OmdbMovieType[]>([]);
   const responseStatus = ref<'True' | 'False' | ''>('');
   const error = ref<string | null>(null);
   const isLoading = ref(false);
@@ -19,7 +22,7 @@ export const useSearchStore = defineStore('search', () => {
     error.value = null;
 
     try {
-      const response = await $fetch<OmdbResponse>(
+      const response = await $fetch<OmdbResponseType>(
         `${import.meta.env.VITE_OMDB_API_URL}/?s=${search}&page=${page}&apikey=${import.meta.env.VITE_OMDB_API_KEY}`
       );
 
@@ -67,6 +70,33 @@ export const useSearchStore = defineStore('search', () => {
     fetchSearchData(term);
   };
 
+  const startVoiceSearch = () => {
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    let recognition: typeof SpeechRecognition | null = null;
+
+    if (SpeechRecognition) {
+      recognition = new SpeechRecognition();
+      recognition.lang = 'en-US';
+      recognition.continuous = false;
+      recognition.interimResults = false;
+
+      recognition.start();
+
+      recognition.onresult = (event: any) => {
+        const searchQuery = event.results[0][0].transcript;
+        console.log('Voice input received:', searchQuery);
+
+        fetchSearchData(searchQuery);
+      };
+
+      recognition.onerror = (event: any) => {
+        console.error('Speech recognition error:', event.error);
+      };
+    } else {
+      console.error('SpeechRecognition is not supported by your browser');
+    }
+  };
+
   return {
     data,
     responseStatus,
@@ -80,5 +110,6 @@ export const useSearchStore = defineStore('search', () => {
     isShowMoreBtn,
     loadMoreData,
     setSearchTerm,
+    startVoiceSearch,
   };
 });

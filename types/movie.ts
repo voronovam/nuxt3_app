@@ -1,4 +1,4 @@
-export type movieType = {
+export type MovieType = {
   id: string;
   title: string;
   poster: string;
@@ -13,7 +13,7 @@ export type movieType = {
   plot: string;
 }
 
-export type movieDetailsType = {
+export type MovieDetailsType = {
   imdbID: string;
   Title: string;
   Year: string;
@@ -28,21 +28,21 @@ export type movieDetailsType = {
   Plot: string;
 }
 
-export type OmdbMovie = {
+export type OmdbMovieType = {
   imdbID: string;
   Title: string;
   Year: string;
   Poster: string;
 }
 
-export type OmdbResponse = {
-  Search: OmdbMovie[];
+export type OmdbResponseType = {
+  Search: OmdbMovieType[];
   totalResults: string;
   Response: 'True' | 'False';
   Error?: string;
 }
 
-export type movieCard = {
+export type MovieCardType = {
   id: string;
   title: string;
   poster: string;

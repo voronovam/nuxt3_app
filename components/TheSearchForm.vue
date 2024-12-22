@@ -1,22 +1,35 @@
 <script setup lang="ts">
+import { useSearchStore } from '@/stores/movieSearch';
+const searchStore = useSearchStore();
+
+const startVoiceSearch = () => {
+  searchStore.startVoiceSearch();
+};
+
 defineProps(['modelValue'])
 const emit = defineEmits(['update:modelValue', 'searchData']);
 </script>
 
 <template lang="pug">
-form.the-search-form(
-  @submit.prevent="emit('searchData')"
-)
-  label
-    input.the-search-form__input(
-      @input="emit('update:modelValue', $event.target.value)"
-      placeholder="find a movie"
-      type="search"
-      name="search"
-      autocomplete="search"
-    )
+.the-search-form
+  form.the-search-form__form(
+    @submit.prevent="emit('searchData')"
+  )
+    label
+      input.the-search-form__input(
+        @input="emit('update:modelValue', $event.target.value)"
+        placeholder="find a movie"
+        type="search"
+        name="search"
+        autocomplete="search"
+      )
 
-  UiButton search
+    UiButton search
+
+  UiButton(
+    title="voice search"
+    @click="startVoiceSearch"
+  ) 🎤
 
 </template>
 
@@ -24,6 +37,11 @@ form.the-search-form(
 .the-search-form {
   display: flex;
   grid-gap: var(--gap);
+
+  &__form {
+    display: flex;
+    grid-gap: var(--gap);
+  }
 
   &__input {
     border-radius: 2px;

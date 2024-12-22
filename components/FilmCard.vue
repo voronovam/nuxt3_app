@@ -19,18 +19,11 @@ nuxt-link.film-card(
 </template>
 
 <script setup lang="ts">
-
-export interface FilmCard {
-  id: string;
-  title: string;
-  poster: string;
-  year: string;
-}
+import type { MovieCardType } from '@/types/movie';
 
 defineProps<{
-  film: FilmCard;
+  film: MovieCardType;
 }>();
-
 
 </script>
 

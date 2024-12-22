@@ -1,7 +1,7 @@
-import { movieDetailsType, movieType } from '@/types/movie';
+import { MovieDetailsType, MovieType } from '@/types/movie';
 
 export const useMovieItem = defineStore('movieList', () => {
-  const data = ref<movieType | null>(null);
+  const data = ref<MovieType | null>(null);
   const error = ref<string | null>(null);
   const isLoading = ref(false);
 
@@ -13,7 +13,7 @@ export const useMovieItem = defineStore('movieList', () => {
 
     try {
       const response = await fetch(url);
-      const filmDetails = (await response.json()) as movieDetailsType;
+      const filmDetails = (await response.json()) as MovieDetailsType;
 
       if (filmDetails && filmDetails.imdbID) {
         data.value = {
