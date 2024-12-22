@@ -1,73 +1,28 @@
 <script setup lang="ts">
-import { useSearchValue } from '~/composables/useSearchValue';
-import { useGetSearchData } from '~/composables/useGetSearchData';
+import { useSearchStore } from '~/stores/movieSearch';
 
-export interface FilmCardModel {
-  id: string;
-  title: string;
-  poster: string;
-  year: string;
-}
+const searchStore = useSearchStore();
+const searchValue = ref('');
 
-const currentPage = ref(1);
-//const router = useRouter();
-const moviesData = ref<FilmCardModel[] | null>(null);
-
-const { searchValue } = useSearchValue();
-
-const { data, responseStatus, totalResults, error, isLoading, fetchSearchData } = useGetSearchData();
-
-async function searchData() {
-  try {
-    currentPage.value = 1;
-
-    await fetchSearchData(searchValue.value);
-
-    if (data.value) {
-      moviesData.value = data.value.map((movie) => ({
-        id: movie.imdbID || '',
-        title: movie.Title || '',
-        poster: movie.Poster || '',
-        year: movie.Year || '',
-      }));
-    }
-  } catch (err) {
-    console.log(error.value);
-  }
-}
-
-const getMoreData = async () => {
-  try {
-    currentPage.value++;
-    await fetchSearchData(searchValue.value, currentPage.value);
-
-    if (data.value) {
-      const newMovies = data.value.map((movie) => ({
-        id: movie.imdbID || '',
-        title: movie.Title || '',
-        poster: movie.Poster || '',
-        year: movie.Year || '',
-      }));
-
-      const uniqueMovies = newMovies.filter(
-        (newMovie) => !moviesData.value.some((existingMovie) => existingMovie.id === newMovie.id)
-      );
-
-      moviesData.value = [...moviesData.value, ...uniqueMovies];
-    }
-  } catch (err) {
-    console.error('Error get more data:', err);
+const searchData = async () => {
+  if (searchValue.value.trim()) {
+    searchStore.setSearchTerm(searchValue.value);
+  } else {
+    console.error('Search term is empty.');
   }
 };
 
-const isShowMoreBtn = computed(() => {
-  return moviesData.value.length < totalResults.value && !isLoading.value;
-});
+const loadMoreMovies = () => {
+  if (searchStore.searchTerm) {
+    searchStore.loadMoreData();
+  } else {
+    console.error('Search term is empty, cannot load more movies.');
+  }
+};
 
 useHead({
   title: 'Search'
 })
-
 </script>
 
 <template lang="pug">
@@ -78,32 +33,31 @@ useHead({
       @search-data="searchData"
     )
 
-    Spinner(v-if="isLoading")
+    Spinner(v-if="searchStore.isLoading")
 
     EmptyResults(
-      v-if="error"
-      :message="error"
+      v-if="searchStore.error"
+      :message="searchStore.error"
     )
 
     template(v-else)
       template(
-        v-if="moviesData && responseStatus === 'True'"
+        v-if="searchStore.getMoviesData && searchStore.responseStatus === 'True'"
       )
         .start-page__list
           FilmCard(
-            v-for="movie in moviesData"
+            v-for="movie in searchStore.getMoviesData"
             :key="movie.id"
             :film="movie"
           )
 
-        .start-page__search-results total results: {{ totalResults }}
+        .start-page__search-results total results: {{ searchStore.totalResults }}
 
         UiButton.start-page__more-btn(
-          v-if="isShowMoreBtn"
+          v-if="searchStore.isShowMoreBtn"
           type="button"
-          @click="getMoreData"
+          @click="loadMoreMovies" :disabled="!searchStore.isShowMoreBtn"
         ) load more
-
 </template>
 
 <style lang="scss">

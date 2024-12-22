@@ -1,26 +1,20 @@
-export interface OmdbMovie {
-  imdbID: string;
-  Title: string;
-  Year: string;
-  Poster: string;
-}
+import { OmdbMovie, OmdbResponse } from '@/types/movie';
 
-export interface OmdbResponse {
-  Search: OmdbMovie[];
-  totalResults: string;
-  Response: 'True' | 'False';
-  Error?: string;
-}
-
-export function useGetSearchData() {
+export const useSearchStore = defineStore('search', () => {
   const data = ref<OmdbMovie[]>([]);
   const responseStatus = ref<'True' | 'False' | ''>('');
   const error = ref<string | null>(null);
   const isLoading = ref(false);
   const searchTerm = ref('');
   const totalResults = ref<number>(0);
+  const currentPage = ref(1);
 
   const fetchSearchData = async (search: string, page: number = 1): Promise<void> => {
+    if (!search) {
+      console.error('Search term is empty');
+      return;
+    }
+
     isLoading.value = true;
     error.value = null;
 
@@ -36,7 +30,6 @@ export function useGetSearchData() {
       data.value = page === 1 ? response.Search || [] : [...data.value, ...(response.Search || [])];
       responseStatus.value = response.Response;
       totalResults.value = parseInt(response.totalResults, 10) || 0;
-
     } catch (err) {
       console.error('Error fetch data:', err);
       error.value = err instanceof Error ? err.message : 'An unknown error';
@@ -45,11 +38,34 @@ export function useGetSearchData() {
     }
   };
 
-  watch(searchTerm, (newSearchTerm) => {
-    if (newSearchTerm) {
-      fetchSearchData(newSearchTerm);
-    }
+  const getMoviesData = computed(() => {
+    return data.value.map((movie) => ({
+      id: movie.imdbID || '',
+      title: movie.Title || '',
+      poster: movie.Poster || '',
+      year: movie.Year || '',
+    }));
   });
+
+  const isShowMoreBtn = computed(() => {
+    return data.value.length < totalResults.value && !isLoading.value;
+  });
+
+  const loadMoreData = async (): Promise<void> => {
+    if (!searchTerm.value) {
+      console.error('Search term is empty, cannot load more data.');
+      return;
+    }
+
+    currentPage.value++;
+    await fetchSearchData(searchTerm.value, currentPage.value);
+  };
+
+  const setSearchTerm = (term: string): void => {
+    searchTerm.value = term;
+    currentPage.value = 1;
+    fetchSearchData(term);
+  };
 
   return {
     data,
@@ -58,6 +74,11 @@ export function useGetSearchData() {
     error,
     isLoading,
     searchTerm,
+    currentPage,
     fetchSearchData,
+    getMoviesData,
+    isShowMoreBtn,
+    loadMoreData,
+    setSearchTerm,
   };
-}
+});

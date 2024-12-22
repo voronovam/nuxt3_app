@@ -27,3 +27,24 @@ export type movieDetailsType = {
   Country: string;
   Plot: string;
 }
+
+export type OmdbMovie = {
+  imdbID: string;
+  Title: string;
+  Year: string;
+  Poster: string;
+}
+
+export type OmdbResponse = {
+  Search: OmdbMovie[];
+  totalResults: string;
+  Response: 'True' | 'False';
+  Error?: string;
+}
+
+export type movieCard = {
+  id: string;
+  title: string;
+  poster: string;
+  year: string;
+}
