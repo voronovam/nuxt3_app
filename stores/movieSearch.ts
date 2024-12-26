@@ -9,6 +9,7 @@ export const useSearchStore = defineStore('search', () => {
   const error = ref<string | null>(null);
   const isLoading = ref(false);
   const searchTerm = ref('');
+  const searchQuery = ref('');
   const totalResults = ref<number>(0);
   const currentPage = ref(1);
 
@@ -83,10 +84,11 @@ export const useSearchStore = defineStore('search', () => {
       recognition.start();
 
       recognition.onresult = (event: any) => {
-        const searchQuery = event.results[0][0].transcript;
-        console.log('Voice input received:', searchQuery);
+        searchQuery.value = event.results[0][0].transcript;
+        searchTerm.value = searchQuery.value;
+        //console.log('Voice input received:', searchQuery.value);
 
-        fetchSearchData(searchQuery);
+        fetchSearchData(searchQuery.value);
       };
 
       recognition.onerror = (event: any) => {
@@ -97,6 +99,17 @@ export const useSearchStore = defineStore('search', () => {
     }
   };
 
+  const resetSearch = (): void => {
+    data.value = [];
+    responseStatus.value = '';
+    error.value = null;
+    isLoading.value = false;
+    searchTerm.value = '';
+    searchQuery.value = '';
+    totalResults.value = 0;
+    currentPage.value = 1;
+  };
+
   return {
     data,
     responseStatus,
@@ -104,6 +117,7 @@ export const useSearchStore = defineStore('search', () => {
     error,
     isLoading,
     searchTerm,
+    searchQuery,
     currentPage,
     fetchSearchData,
     getMoviesData,
@@ -111,5 +125,6 @@ export const useSearchStore = defineStore('search', () => {
     loadMoreData,
     setSearchTerm,
     startVoiceSearch,
+    resetSearch,
   };
 });

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useSearchStore } from '~/stores/movieSearch';
-
 const searchStore = useSearchStore();
+
 const searchValue = ref('');
 
 const searchData = async () => {
@@ -29,8 +29,7 @@ useHead({
 .start-page
   .container
     TheSearchForm.start-page__form(
-      v-model="searchValue"
-      @search-data="searchData"
+      @search-data="searchStore.fetchSearchData(searchStore.searchTerm)"
     )
 
     Spinner(v-if="searchStore.isLoading")

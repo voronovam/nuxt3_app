@@ -6,18 +6,21 @@ const startVoiceSearch = () => {
   searchStore.startVoiceSearch();
 };
 
-defineProps(['modelValue'])
-const emit = defineEmits(['update:modelValue', 'searchData']);
+const handleInput = (event: Event) => {
+  searchStore.searchTerm = (event.target as HTMLInputElement).value;
+  searchStore.searchQuery = '';
+};
 </script>
 
 <template lang="pug">
 .the-search-form
   form.the-search-form__form(
-    @submit.prevent="emit('searchData')"
+    @submit.prevent="searchStore.fetchSearchData(searchStore.searchTerm)"
   )
     label
       input.the-search-form__input(
-        @input="emit('update:modelValue', $event.target.value)"
+        v-model="searchStore.searchTerm"
+        @input="handleInput"
         placeholder="find a movie"
         type="search"
         name="search"
@@ -26,17 +29,21 @@ const emit = defineEmits(['update:modelValue', 'searchData']);
 
     UiButton search
 
-  UiButton(
-    title="voice search"
-    @click="startVoiceSearch"
-  ) 🎤
+  .the-search-form__voice-search
+    UiButton(
+      title="voice search"
+      @click="startVoiceSearch"
+    ) 🎤
 
+    small(v-if="searchStore.searchQuery") {{ searchStore.searchQuery }}
 </template>
 
 <style lang="scss">
 .the-search-form {
   display: flex;
+  flex-direction: column;
   grid-gap: var(--gap);
+  align-items: flex-start;
 
   &__form {
     display: flex;
@@ -52,6 +59,12 @@ const emit = defineEmits(['update:modelValue', 'searchData']);
     &:focus-visible {
       box-shadow: 5px 5px 0 -2px var(--color-dark);
     }
+  }
+
+  &__voice-search {
+    display: flex;
+    align-items: center;
+    grid-gap: var(--gap);
   }
 }
 </style>
