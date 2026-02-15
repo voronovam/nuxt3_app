@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { useSearchStore } from '~/stores/movieSearch';
+import { useSearchStore } from '@/stores/movieSearch';
+
 const searchStore = useSearchStore();
 </script>
 
@@ -7,19 +8,19 @@ const searchStore = useSearchStore();
 .the-menu
   .container
     .the-menu__body
-      nuxt-link(
+      router-link(
         to="/"
-        @click.prevent="searchStore.resetSearch();"
+        @click="searchStore.resetSearch()"
       )
         TheLogo.the-menu__home-logo
 
       //
-        nuxt-link(
+        router-link(
           v-if="isAuth"
           @click="logout"
         ) logout
 
-        nuxt-link(
+        router-link(
           v-if="isAuth"
           to="/profile"
         ) profile

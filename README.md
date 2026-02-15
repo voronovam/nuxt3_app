@@ -1,40 +1,36 @@
-# Nuxt 3 App
+# Vue 3 + Pinia App
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Single-page app on Vue 3, Vite, Vue Router, and Pinia.
+
+## Requirements
+
+- Node.js `22.18.0+`
 
 ## Setup
 
 ```bash
-# yarn
-yarn install
-
+npm install
 ```
 
-## Development Server
+## Environment
 
-Start the development server on `http://localhost:3000`:
+Create `.env` from `.env.example` and set your OMDb API key:
 
 ```bash
-# yarn
-yarn dev
+cp .env.example .env
 ```
 
-## Production
-
-Build the application for production:
+## Development
 
 ```bash
-# yarn
-yarn build
-
+npm run dev
 ```
 
-Locally preview production build:
+App runs at [http://localhost:8080](http://localhost:8080).
+
+## Build
 
 ```bash
-# yarn
-yarn preview
-
+npm run build
+npm run preview
 ```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.

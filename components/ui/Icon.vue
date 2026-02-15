@@ -6,6 +6,8 @@ component.ui-icon(
 </template>
 
 <script setup lang="ts">
+import { computed, defineAsyncComponent, type Component } from 'vue';
+
 type Props = {
   size?: number
   name: string
@@ -14,11 +16,11 @@ type Props = {
 const props = defineProps<Props>()
 
 const icons: Record<string, Component> = {
-  add: defineAsyncComponent(() => import('./assets/icons/add.svg?component')),
-  delete: defineAsyncComponent(() => import('./assets/icons/delete-2.svg?component')),
-  edit: defineAsyncComponent(() => import('./assets/icons/edit.svg?component')),
-  back: defineAsyncComponent(() => import('./assets/icons/arrow-left.svg?component')),
-  vk: defineAsyncComponent(() => import('./assets/icons/vk.svg?component')),
+  add: defineAsyncComponent(() => import('@/assets/icons/add.svg?component')),
+  delete: defineAsyncComponent(() => import('@/assets/icons/delete-2.svg?component')),
+  edit: defineAsyncComponent(() => import('@/assets/icons/edit.svg?component')),
+  back: defineAsyncComponent(() => import('@/assets/icons/arrow-left.svg?component')),
+  vk: defineAsyncComponent(() => import('@/assets/icons/vk.svg?component')),
 }
 
 const icon = computed(() => icons[props.name]);

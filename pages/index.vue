@@ -1,16 +1,8 @@
 <script setup lang="ts">
-import { useSearchStore } from '~/stores/movieSearch';
+import { onMounted } from 'vue';
+import { useSearchStore } from '@/stores/movieSearch';
+
 const searchStore = useSearchStore();
-
-const searchValue = ref('');
-
-const searchData = async () => {
-  if (searchValue.value.trim()) {
-    searchStore.setSearchTerm(searchValue.value);
-  } else {
-    console.error('Search term is empty.');
-  }
-};
 
 const loadMoreMovies = () => {
   if (searchStore.searchTerm) {
@@ -20,9 +12,9 @@ const loadMoreMovies = () => {
   }
 };
 
-useHead({
-  title: 'Search'
-})
+onMounted(() => {
+  document.title = 'Search | soundOST';
+});
 </script>
 
 <template lang="pug">

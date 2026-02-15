@@ -1,7 +1,6 @@
-import {
-  OmdbMovieType,
-  OmdbResponseType
-} from '@/types/movie';
+import { computed, ref } from 'vue';
+import { defineStore } from 'pinia';
+import { OmdbMovieType, OmdbResponseType } from '@/types/movie';
 
 export const useSearchStore = defineStore('search', () => {
   const data = ref<OmdbMovieType[]>([]);
@@ -23,17 +22,18 @@ export const useSearchStore = defineStore('search', () => {
     error.value = null;
 
     try {
-      const response = await $fetch<OmdbResponseType>(
+      const response = await fetch(
         `${import.meta.env.VITE_OMDB_API_URL}/?s=${search}&page=${page}&apikey=${import.meta.env.VITE_OMDB_API_KEY}`
       );
+      const parsed = (await response.json()) as OmdbResponseType;
 
-      if (response?.Error) {
-        throw new Error(response.Error);
+      if (parsed?.Error) {
+        throw new Error(parsed.Error);
       }
 
-      data.value = page === 1 ? response.Search || [] : [...data.value, ...(response.Search || [])];
-      responseStatus.value = response.Response;
-      totalResults.value = parseInt(response.totalResults, 10) || 0;
+      data.value = page === 1 ? parsed.Search || [] : [...data.value, ...(parsed.Search || [])];
+      responseStatus.value = parsed.Response;
+      totalResults.value = Number.parseInt(parsed.totalResults, 10) || 0;
     } catch (err) {
       console.error('Error fetch data:', err);
       error.value = err instanceof Error ? err.message : 'An unknown error';
@@ -72,11 +72,14 @@ export const useSearchStore = defineStore('search', () => {
   };
 
   const startVoiceSearch = () => {
-    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-    let recognition: typeof SpeechRecognition | null = null;
+    const SpeechRecognition =
+      (window as Window & { SpeechRecognition?: any; webkitSpeechRecognition?: any })
+        .SpeechRecognition ||
+      (window as Window & { SpeechRecognition?: any; webkitSpeechRecognition?: any })
+        .webkitSpeechRecognition;
 
     if (SpeechRecognition) {
-      recognition = new SpeechRecognition();
+      const recognition = new SpeechRecognition();
       recognition.lang = 'en-US';
       recognition.continuous = false;
       recognition.interimResults = false;
@@ -86,8 +89,6 @@ export const useSearchStore = defineStore('search', () => {
       recognition.onresult = (event: any) => {
         searchQuery.value = event.results[0][0].transcript;
         searchTerm.value = searchQuery.value;
-        //console.log('Voice input received:', searchQuery.value);
-
         fetchSearchData(searchQuery.value);
       };
 

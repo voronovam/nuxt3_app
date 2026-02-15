@@ -1,3 +1,5 @@
+import { computed, ref } from 'vue';
+import { defineStore } from 'pinia';
 import { MovieDetailsType, MovieType } from '@/types/movie';
 
 export const useMovieItem = defineStore('movieList', () => {

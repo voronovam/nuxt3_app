@@ -10,7 +10,7 @@ button.ui-button(
 .ui-button {
   border-radius: 2px;
   color: var(--color-dark);
-  background-color: var(color-light);
+  background-color: var(--color-light);
   padding: 4px 8px;
   transition: box-shadow .2s ease;
   outline: none;

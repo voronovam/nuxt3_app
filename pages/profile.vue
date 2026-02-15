@@ -1,24 +1,12 @@
 <script setup lang="ts">
-/*definePageMeta({
-  middleware: [
-    function (to, from) {
-    if (to.path === '/profile') {
-      console.log(to.path)
-    }
+import { onMounted } from 'vue';
 
-    },
-    'auth',
-  ],
-});*/
-
-useHead({
-  titleTemplate: 'Profile | SoundOST'
-})
-
+onMounted(() => {
+  document.title = 'Profile | soundOST';
+});
 </script>
 
 <template lang="pug">
 .profile.container profile
 
 </template>
-

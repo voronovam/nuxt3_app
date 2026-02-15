@@ -1,5 +1,5 @@
 <template lang="pug">
-nuxt-link.film-card(
+router-link.film-card(
   :to="`/film/${film.id}`"
 )
   .film-card__poster

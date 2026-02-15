@@ -1,23 +1,23 @@
 <script setup lang="ts">
-import { useMovieItem } from '~/stores/movieItem';
+import { onMounted, watch } from 'vue';
+import { useRoute } from 'vue-router';
+import { useMovieItem } from '@/stores/movieItem';
 
 const route = useRoute();
-const { id } = route.params;
-
 const movieItemStore = useMovieItem();
 
 onMounted(() => {
-  if (id) {
-    movieItemStore.getMovie(id as string);
+  const id = route.params.id;
+
+  if (typeof id === 'string' && id) {
+    movieItemStore.getMovie(id);
   }
 });
 
 watch(
   () => movieItemStore.title,
   (newTitle) => {
-    useHead({
-      title: newTitle || '👾',
-    });
+    document.title = `${newTitle || 'Movie'} | soundOST`;
   },
   { immediate: true }
 );
